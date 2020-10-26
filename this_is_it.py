@@ -249,37 +249,27 @@ def predict(age, sex,
             exang, oldpeak,
             slope, ca, thal):
 
-    column_names = ['age', 'sex',
-            'cp', 'trestbps',
-            'chol', 'fbs',
-            'restecg', 'thalach',
-            'exang', 'oldpeak',
-            'slope', 'ca', 'thal'],
-    
-    values = [age, sex,
-            cp, trestbps,
-            chol, fbs,
-            restecg, thalach,
-            exang, oldpeak,
-            slope, ca, thal]
-    
-    df = pd.DataFrame(data=[values],columns=[column_names])
+    df = pd.DataFrame(
+        data=[[age, sex, cp, trestbps, chol, fbs, restecg, thalach, exang, oldpeak, slope, ca, thal]],
+        columns=['age', 'sex','cp', 'trestbps','chol', 'fbs','restecg', 'thalach','exang', 'oldpeak',
+            'slope', 'ca', 'thal']
+    )
         
     prediction = model.predict(df)
-#    y_pred = model.predict_proba(df)[:, 1]*100
-#    text_pred = str(np.round(y_pred[0], 1)) + "%"
+  y_pred = model.predict_proba(df)[:, 1]*100
+    text_pred = str(np.round(y_pred[0], 1)) + "%"
     
     # assign a risk group
     
-#    if y_pred/100 <= 0.275685: risk_grp = 'low risk'
-#    elif y_pred/100 <= 0.795583: risk_grp = 'medium risk'
-#    else: risk_grp = 'high risk'
+    if y_pred/100 <= 0.275685: risk_grp = 'low risk'
+      elif y_pred/100 <= 0.795583: risk_grp = 'medium risk'
+       else: risk_grp = 'high risk'
     
-#    result =f"Based on the patient's profile, the predicted likelihood of developing heart disease is {prediction}, meaning a {text_pred} chance of developing CVD " \
-#           f"This patient is in the {risk_grp} group. "
+   result =f"Based on the patient's profile, the predicted likelihood of developing heart disease is {prediction}, meaning a {text_pred} chance of developing CVD " \
+         f"This patient is in the {risk_grp} group. "
     
     
-    return prediction
+    return result
 
 if __name__ == '__main__':
     app.run_server()
